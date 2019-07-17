@@ -60,8 +60,8 @@ sed -i "s/short_open_tag = Off/short_open_tag = On/" /usr/local/php/lib/php.ini 
 sed -i "s/;date.timezone =/date.timezone =Asia\/Shanghai/" /usr/local/php/lib/php.ini && \
 sed -i "s/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = E_ALL/" /usr/local/php/lib/php.ini && \
 sed -i "s/;error_log = php_errors.log/error_log = \/data\/logs\/php\/php_errors.log/" /usr/local/php/lib/php.ini
-ADD php-fpm.conf /usr/local/php/etc/php-fpm.conf
-ADD php-fpm-pool.conf /usr/local/php/etc/php-fpm.d/pool.conf
+ADD src/php-fpm.conf /usr/local/php/etc/php-fpm.conf
+ADD src/php-fpm-pool.conf /usr/local/php/etc/php-fpm.d/pool.conf
 RUN cd ..  && rm -rf php-7.1.30
 RUN php composer-installer.php && mv composer.phar /usr/local/bin/composer
 RUN composer global config -g repo.packagist composer https://packagist.laravel-china.org  && composer global config secure-http false
@@ -92,6 +92,7 @@ cd nginx-1.12.2 && \
 ./configure --prefix=/usr/local/nginx --error-log-path=/data/logs/nginx/error.log --http-log-path=/data/logs/nginx/access.log --user=www-data --group=www-data --with-compat --with-file-aio --with-threads --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module  --with-http_sub_module --with-http_v2_module --with-mail --with-mail_ssl_module --with-stream --with-stream_realip_module --with-stream_ssl_module --with-stream_ssl_preread_module && \
 make && make install && \
 cd ..  && rm -rf nginx-1.12.2
+ADD src/nginx /usr/local/nginx/conf
 EXPOSE 80 443
 CMD ["/usr/local/php/sbin/php-fpm", "/usr/local/php/etc/php-fpm.conf"]
 ENTRYPOINT ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;", "-c", "/usr/local/nginx/conf/nginx.conf"]
