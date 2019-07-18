@@ -46,7 +46,6 @@ mkdir -p /data/webroot/runtimes && chown php-fpm:php-fpm /data/webroot/runtimes 
 mkdir -p /data/logs/nginx && \
 mkdir -p /data/logs/php && \
 mkdir -p /usr/local/conf/vhost && \
-su www-data -c "echo '<?php phpinfo();?>' > /data/webroot/phpinfo.php" && \
 ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 RUN tar -zxvf php-7.1.30.tgz && \
 cd php-7.1.30 && \
@@ -93,6 +92,7 @@ cd nginx-1.12.2 && \
 make && make install && \
 cd ..  && rm -rf nginx-1.12.2
 ADD src/nginx /usr/local/nginx/conf
+ADD start.sh /usr/local/bin/start.sh
+ADD public /data/webroot/public
 EXPOSE 80 443
-CMD ["/usr/local/php/sbin/php-fpm", "/usr/local/php/etc/php-fpm.conf"]
-ENTRYPOINT ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;", "-c", "/usr/local/nginx/conf/nginx.conf"]
+ENTRYPOINT ["sh", "/usr/local/bin/start.sh"]
