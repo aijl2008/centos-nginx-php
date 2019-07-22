@@ -95,4 +95,4 @@ ADD src/nginx /usr/local/nginx/conf
 ADD start.sh /usr/local/bin/start.sh
 ADD public /data/webroot/public
 EXPOSE 80 443
-ENTRYPOINT ["sh", "/usr/local/bin/start.sh"]
+CMD ["/bin/sh", "/usr/local/bin/start.sh"]
