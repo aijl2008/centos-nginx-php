@@ -60,6 +60,8 @@ sed -i "s/short_open_tag = Off/short_open_tag = On/" /usr/local/php/lib/php.ini 
 sed -i "s/;date.timezone =/date.timezone =Asia\/Shanghai/" /usr/local/php/lib/php.ini && \
 sed -i "s/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = E_ALL/" /usr/local/php/lib/php.ini && \
 sed -i "s/;error_log = php_errors.log/error_log = \/data\/logs\/php\/php_errors.log/" /usr/local/php/lib/php.ini && \
+touch /data/logs/php/php_errors.log && \
+chown php-fpm:php-fpm /data/logs/php/php_errors.log && \
 cd ..  && rm -rf php-7.1.30 && \
 php composer-installer.php && mv composer.phar /usr/local/bin/composer && \
 composer global config -g repo.packagist composer https://mirrors.aliyun.com/composer  && composer global config secure-http false && \
