@@ -37,6 +37,8 @@ yum install -y libjpeg-devel && \
 yum install -y libssh2-devel  && \
 yum install -y kde-l10n-Chinese && \
 yum install -y glibc-common && \
+yum clean all && \
+rm -rf /var/cache/yum/* && \
 localedef -c -f UTF-8 -i zh_CN zh_CN.utf8 && \
 /usr/sbin/groupadd -f -g 501 www-data && \
 /usr/sbin/groupadd -f -g 510 php-fpm && \
